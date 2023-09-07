@@ -4,12 +4,12 @@ public class Compute {
   public static Output compute(Input input) {
     Output output = new Output();
 
-    if (input.gameStickLeftY < 0) {
-      output.frontLeftPower = 1f;
-      output.frontRightPower = 1f;
-      output.rearLeftPower = 1f;
-      output.rearRightPower = 1f;
-    }
+    float power = input.gameStickLeftY * -2;
+
+    output.frontLeftPower = power;
+    output.frontRightPower = power;
+    output.rearLeftPower = power;
+    output.rearRightPower = power;
 
     return output;
   }
