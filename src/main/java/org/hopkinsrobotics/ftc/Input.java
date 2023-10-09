@@ -1,8 +1,13 @@
 package org.hopkinsrobotics.ftc;
 
 public class Input {
-  float gameStickLeftX = 0f;
-  float gameStickLeftY = 0f;
-  float gameStickRightX = 0f;
-  float gameStickRightY = 0f;
+  public float gameStickLeftX = 0f;
+  public float gameStickLeftY = 0f;
+  public float gameStickRightX = 0f;
+  public float gameStickRightY = 0f;
+
+  public boolean dPadUp = false;
+  public boolean dPadDown = false;
+  public boolean triangle = false;
+  public boolean cross = false;
 }

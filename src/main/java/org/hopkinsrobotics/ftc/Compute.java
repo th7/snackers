@@ -2,16 +2,23 @@ package org.hopkinsrobotics.ftc;
 
 public class Compute {
   public static Output compute(Input input) {
-    Output turnOutput = turnOutput(input.gameStickRightX);
-    Output moveOutput = moveOutput(input.gameStickLeftY);
-    Output strafeOutput = strafeOutput(input.gameStickLeftX);
     Output finalOutput = new Output();
 
-    finalOutput.frontLeftPower = clip(turnOutput.frontLeftPower + moveOutput.frontLeftPower + strafeOutput.frontLeftPower);
-    finalOutput.frontRightPower = clip(turnOutput.frontRightPower + moveOutput.frontRightPower + strafeOutput.frontRightPower);
-    finalOutput.rearLeftPower = clip(turnOutput.rearLeftPower + moveOutput.rearLeftPower + strafeOutput.rearLeftPower);
-    finalOutput.rearRightPower = clip(turnOutput.rearRightPower + moveOutput.rearRightPower + strafeOutput.rearRightPower);
+    arm(input.dPadUp, input.dPadDown, input.cross, input.triangle, finalOutput);
+    drive(input.gameStickRightX, input.gameStickLeftY, input.gameStickLeftX, finalOutput);
+
     return finalOutput;
+  }
+
+  private static void drive(float gameStickRightX, float gameStickLeftY, float gameStickLeftX, Output output) {
+    Output turnOutput = turnOutput(gameStickRightX);
+    Output moveOutput = moveOutput(gameStickLeftY);
+    Output strafeOutput = strafeOutput(gameStickLeftX);
+
+    output.frontLeftPower = clip(turnOutput.frontLeftPower + moveOutput.frontLeftPower + strafeOutput.frontLeftPower);
+    output.frontRightPower = clip(turnOutput.frontRightPower + moveOutput.frontRightPower + strafeOutput.frontRightPower);
+    output.rearLeftPower = clip(turnOutput.rearLeftPower + moveOutput.rearLeftPower + strafeOutput.rearLeftPower);
+    output.rearRightPower = clip(turnOutput.rearRightPower + moveOutput.rearRightPower + strafeOutput.rearRightPower);
   }
 
   private static Output turnOutput(float gameStickRightX) {
@@ -36,11 +43,31 @@ public class Compute {
   private static Output strafeOutput(float gameStickLeftX) {
     Output output = new Output();
     output.frontLeftPower = -gameStickLeftX;
-    output.frontRightPower = -gameStickLeftX;
+    output.frontRightPower = gameStickLeftX;
     output.rearLeftPower = gameStickLeftX;
-    output.rearRightPower = gameStickLeftX;
+    output.rearRightPower = -gameStickLeftX;
 
     return output;
+  }
+
+  private static void arm(boolean dPadUp, boolean dPadDown, boolean cross, boolean triangle, Output output) {
+    if (dPadUp) {
+      output.armMotorPower = 0.25f;
+    }
+
+    if (dPadDown) {
+      output.armMotorPower = -0.25f;
+    }
+
+    if (cross) {
+      output.setArmMotorPosition = true;
+      output.armMotorPosition = 0;
+    }
+
+    if (triangle) {
+      output.setArmMotorPosition = true;
+      output.armMotorPosition = 500;
+    }
   }
 
   private static float clip(float unclipped) {

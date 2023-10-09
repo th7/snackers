@@ -112,9 +112,9 @@ public class ComputeTest {
     input.gameStickLeftX = -1f;
     compute();
     assertEquals(1f, output.frontLeftPower);
-    assertEquals(1f, output.frontRightPower);
+    assertEquals(-1f, output.frontRightPower);
     assertEquals(-1f, output.rearLeftPower);
-    assertEquals(-1f, output.rearRightPower);
+    assertEquals(1f, output.rearRightPower);
   }
 
   @Test
@@ -122,9 +122,9 @@ public class ComputeTest {
     input.gameStickLeftX = 1f;
     compute();
     assertEquals(-1f, output.frontLeftPower);
-    assertEquals(-1f, output.frontRightPower);
+    assertEquals(1f, output.frontRightPower);
     assertEquals(1f, output.rearLeftPower);
-    assertEquals(1f, output.rearRightPower);
+    assertEquals(-1f, output.rearRightPower);
   }
 
   @Test
@@ -138,5 +138,35 @@ public class ComputeTest {
     assertEquals(1f, output.rearLeftPower);
     assertEquals(1f, output.rearRightPower);
 
+  }
+
+  // @Test
+  // public void armUp() {
+  //   input.dPadUp = true;
+  //   compute();
+  //   assertEquals(0.25f, output.armMotorPower);
+  // }
+
+  // @Test
+  // public void armDown() {
+  //   input.dPadDown = true;
+  //   compute();
+  //   assertEquals(-0.25f, output.armMotorPower);
+  // }
+
+  @Test
+  public void armDown() {
+    input.cross = true;
+    compute();
+    assertEquals(true, output.setArmMotorPosition);
+    assertEquals(0, output.armMotorPosition);
+  }
+
+  @Test
+  public void armUp() {
+    input.triangle = true;
+    compute();
+    assertEquals(true, output.setArmMotorPosition);
+    assertEquals(500, output.armMotorPosition);
   }
 }
