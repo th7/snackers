@@ -7,6 +7,4 @@ public class Output {
   public float rearRightPower = 0f;
 
   public float armMotorPower = 0f;
-  public int armMotorPosition = 0;
-  public boolean setArmMotorPosition = false;
 }

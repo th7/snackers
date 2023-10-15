@@ -10,4 +10,6 @@ public class Input {
   public boolean dPadDown = false;
   public boolean triangle = false;
   public boolean cross = false;
+
+  public int armPosition = 0;
 }

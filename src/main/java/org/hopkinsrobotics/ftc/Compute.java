@@ -1,10 +1,19 @@
 package org.hopkinsrobotics.ftc;
 
 public class Compute {
+  public static final int armUpPosition = 500;
+  public static final int armDownPosition = 0;
+  public static final int armSlowThreshhold = 50;
+
+  public static final float armFast = 0.3f;
+  public static final float armSlow = 0.1f;
+
+  public static Memory memory = new Memory();
+
   public static Output compute(Input input) {
     Output finalOutput = new Output();
 
-    arm(input.dPadUp, input.dPadDown, input.cross, input.triangle, finalOutput);
+    finalOutput.armMotorPower = arm(input.dPadUp, input.dPadDown, input.cross, input.triangle, input.armPosition);
     drive(input.gameStickRightX, input.gameStickLeftY, input.gameStickLeftX, finalOutput);
 
     return finalOutput;
@@ -50,24 +59,48 @@ public class Compute {
     return output;
   }
 
-  private static void arm(boolean dPadUp, boolean dPadDown, boolean cross, boolean triangle, Output output) {
+  private static float arm(boolean dPadUp, boolean dPadDown, boolean cross, boolean triangle, int armPosition) {
     if (dPadUp) {
-      output.armMotorPower = 0.25f;
+      memory.autoMoveArm = false;
+      return 0.25f;
     }
 
     if (dPadDown) {
-      output.armMotorPower = -0.25f;
-    }
-
-    if (cross) {
-      output.setArmMotorPosition = true;
-      output.armMotorPosition = 0;
+      memory.autoMoveArm = false;
+      return -0.25f;
     }
 
     if (triangle) {
-      output.setArmMotorPosition = true;
-      output.armMotorPosition = 500;
+      memory.autoMoveArm = true;
+      memory.targetArmPosition = armUpPosition;
     }
+
+    if (cross) {
+      memory.autoMoveArm = true;
+      memory.targetArmPosition = armDownPosition;
+    }
+
+    if (!memory.autoMoveArm) {
+      return 0f;
+    }
+
+    if (armPosition < memory.targetArmPosition && memory.targetArmPosition - armPosition <= armSlowThreshhold) {
+      return armSlow;
+    }
+
+    if (armPosition > memory.targetArmPosition && armPosition - memory.targetArmPosition <= armSlowThreshhold) {
+      return -armSlow;
+    }
+
+    if (armPosition < memory.targetArmPosition) {
+      return armFast;
+    }
+
+    if (armPosition > memory.targetArmPosition) {
+      return -armFast;
+    }
+
+    return 0f;
   }
 
   private static float clip(float unclipped) {
@@ -81,4 +114,10 @@ public class Compute {
 
     return unclipped;
   }
+
+  // private static float logistic(float offset) {
+  //   float e = 2.71828f; // should be constant
+  //   float k = -0.1f; // adjust to tune steepness of curve
+  //   return 2 / (1 + Math.pow(e, k * offset);
+  // }
 }
