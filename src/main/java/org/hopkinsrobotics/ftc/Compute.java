@@ -1,12 +1,12 @@
 package org.hopkinsrobotics.ftc;
 
 public class Compute {
-  public static final int armUpPosition = 500;
+  public static final int armUpPosition = 140;
   public static final int armDownPosition = 0;
-  public static final int armSlowThreshhold = 50;
+  public static final int armSlowThreshhold = 25;
 
-  public static final float armFast = 0.3f;
-  public static final float armSlow = 0.1f;
+  public static final float armFast = 0.1f;
+  public static final float armSlow = 0.05f;
 
   public static Memory memory = new Memory();
 
@@ -15,6 +15,7 @@ public class Compute {
 
     finalOutput.armMotorPower = arm(input.dPadUp, input.dPadDown, input.cross, input.triangle, input.armPosition);
     drive(input.gameStickRightX, input.gameStickLeftY, input.gameStickLeftX, finalOutput);
+    finalOutput.winchMotorPower = winch(input.dPadRight);
 
     return finalOutput;
   }
@@ -100,6 +101,13 @@ public class Compute {
       return -armFast;
     }
 
+    return 0f;
+  }
+
+  private static float winch(boolean dPadRight) {
+    if (dPadRight) {
+      return 0.25f;
+    }
     return 0f;
   }
 

@@ -8,6 +8,8 @@ public class Input {
 
   public boolean dPadUp = false;
   public boolean dPadDown = false;
+  public boolean dPadLeft = false;
+  public boolean dPadRight = false;
   public boolean triangle = false;
   public boolean cross = false;
 

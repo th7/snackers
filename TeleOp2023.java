@@ -8,25 +8,35 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="TeleOp2023", group="Linear Opmode")
-@Disabled
-public class TeleOp extends LinearOpMode {
+public class TeleOp2023 extends LinearOpMode {
   private ElapsedTime runtime = new ElapsedTime();
   private DcMotor leftFront = null;
   private DcMotor rightFront = null;
-  private DcMotor LeftBack = null;
+  private DcMotor leftBack = null;
   private DcMotor rightBack = null;
   private DcMotor armMotor1 = null;
   private DcMotor armMotor2 = null;
+  private DcMotor winchMotor = null;
 
   @Override
   public void runOpMode() {
 
-    leftFront  = hardwareMap.get(DcMotor.class, "leftFront");
-    rightFront = hardwareMap.get(DcMotor.class, "rightFront");
-    leftBack = hardwareMap.get(DcMotor.class, "leftBack");
-    rightBack = hardwareMap.get(DcMotor.class, "rightBack");
-    armMotor1 = hardwareMap.get(DcMotor.class, "armMotor1");
-    armMotor2 = hardwareMap.get(DcMotor.class, "armMotor2");
+    leftFront  = hardwareMap.get(DcMotor.class, "LeftFront");
+    rightFront = hardwareMap.get(DcMotor.class, "RightFront");
+    leftBack = hardwareMap.get(DcMotor.class, "LeftBack");
+    rightBack = hardwareMap.get(DcMotor.class, "RightBack");
+    armMotor1 = hardwareMap.get(DcMotor.class, "ArmMotor1");
+    armMotor2 = hardwareMap.get(DcMotor.class, "ArmMotor2");
+    winchMotor = hardwareMap.get(DcMotor.class, "WinchMotor");
+
+    armMotor1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    armMotor2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    armMotor1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    armMotor2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    winchMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    armMotor1.setDirection(DcMotor.Direction.REVERSE);
+    armMotor2.setDirection(DcMotor.Direction.REVERSE);
 
     telemetry.addData("Status", "Initialized");
     telemetry.update();
@@ -43,6 +53,8 @@ public class TeleOp extends LinearOpMode {
 
       input.dPadUp = gamepad1.dpad_up;
       input.dPadDown = gamepad1.dpad_down;
+      input.dPadLeft = gamepad1.dpad_left;
+      input.dPadRight = gamepad1.dpad_right;
       input.triangle = gamepad1.triangle;
       input.cross = gamepad1.cross;
 
@@ -57,6 +69,7 @@ public class TeleOp extends LinearOpMode {
 
       armMotor1.setPower(output.armMotorPower);
       armMotor2.setPower(output.armMotorPower);
+      winchMotor.setPower(output.winchMotorPower);
     }
   }
 }

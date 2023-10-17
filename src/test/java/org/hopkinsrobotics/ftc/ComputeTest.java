@@ -251,4 +251,11 @@ public class ComputeTest {
     compute();
     assertEquals(-Compute.armSlow, output.armMotorPower);
   }
+
+  @Test
+  public void winchUp() {
+    input.dPadRight = true;
+    compute();
+    assertEquals(0.25f, output.winchMotorPower);
+  }
 }
