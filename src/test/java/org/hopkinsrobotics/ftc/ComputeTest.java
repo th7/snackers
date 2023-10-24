@@ -258,4 +258,12 @@ public class ComputeTest {
     compute();
     assertEquals(0.25f, output.winchMotorPower);
   }
+
+  @Test
+  public void setAutoMoveForward() {
+    input.rightTrigger = 0.1f;
+    input.wheelPosition = 123;
+    compute();
+    assertEquals(323, Compute.memory.targetMovePosition);
+  }
 }

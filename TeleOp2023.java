@@ -57,8 +57,10 @@ public class TeleOp2023 extends LinearOpMode {
       input.dPadRight = gamepad1.dpad_right;
       input.triangle = gamepad1.triangle;
       input.cross = gamepad1.cross;
+      input.rightTrigger = gamepad1.right_trigger;
 
       input.armPosition = armMotor1.getCurrentPosition();
+      input.wheelPosition = leftFront.getCurrentPosition();
 
       Output output = Compute.compute(input);
 

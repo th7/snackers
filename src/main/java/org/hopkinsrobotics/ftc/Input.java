@@ -12,6 +12,8 @@ public class Input {
   public boolean dPadRight = false;
   public boolean triangle = false;
   public boolean cross = false;
+  public float rightTrigger = 0f;
 
   public int armPosition = 0;
+  public int wheelPosition = 0;
 }

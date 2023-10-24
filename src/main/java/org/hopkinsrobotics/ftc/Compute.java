@@ -14,6 +14,7 @@ public class Compute {
     Output finalOutput = new Output();
 
     finalOutput.armMotorPower = arm(input.dPadUp, input.dPadDown, input.cross, input.triangle, input.armPosition);
+    setAutoMove(input.rightTrigger, input.wheelPosition);
     drive(input.gameStickRightX, input.gameStickLeftY, input.gameStickLeftX, finalOutput);
     finalOutput.winchMotorPower = winch(input.dPadRight);
 
@@ -29,6 +30,12 @@ public class Compute {
     output.frontRightPower = clip(turnOutput.frontRightPower + moveOutput.frontRightPower + strafeOutput.frontRightPower);
     output.rearLeftPower = clip(turnOutput.rearLeftPower + moveOutput.rearLeftPower + strafeOutput.rearLeftPower);
     output.rearRightPower = clip(turnOutput.rearRightPower + moveOutput.rearRightPower + strafeOutput.rearRightPower);
+  }
+
+  private static void setAutoMove(float rightTrigger, int wheelPosition) {
+    if (rightTrigger != 0)  {
+      memory.targetMovePosition = wheelPosition + 200;
+    }
   }
 
   private static Output turnOutput(float gameStickRightX) {
